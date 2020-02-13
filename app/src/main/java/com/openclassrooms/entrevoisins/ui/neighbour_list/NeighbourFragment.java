@@ -55,17 +55,6 @@ public class NeighbourFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_neighbour_list, container, false);
         Context context = view.getContext();
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    Log.i(TAG, "onTouch: " + getContext().toString());
-                    Intent neighbourDetailIntent = new Intent(getContext(), NeighbourDetailActivity.class);
-                    startActivity(neighbourDetailIntent);
-                }
-                return true;
-            }
-        });
-
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -108,5 +97,4 @@ public class NeighbourFragment extends Fragment {
         mApiService.deleteNeighbour(event.neighbour);
         initList();
     }
-
 }
