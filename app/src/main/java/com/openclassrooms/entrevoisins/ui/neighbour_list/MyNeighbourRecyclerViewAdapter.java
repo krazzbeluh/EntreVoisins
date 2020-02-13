@@ -3,7 +3,6 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,24 +49,16 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
-            }
-        });
+        holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));
         
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Transfer neighbour to activity
-                Intent neighbourDetailIntent = new Intent(v.getContext(), NeighbourDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(NeighbourDetailActivity.SERIALIZABLE_IDENTIFIER, neighbour);
-                neighbourDetailIntent.putExtra(NeighbourDetailActivity.BUNDLE_IDENTIFIER, bundle);
+        holder.itemView.setOnClickListener(v -> {
+            // TODO: Transfer neighbour to activity
+            Intent neighbourDetailIntent = new Intent(v.getContext(), NeighbourDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(NeighbourDetailActivity.SERIALIZABLE_IDENTIFIER, neighbour);
+            neighbourDetailIntent.putExtra(NeighbourDetailActivity.BUNDLE_IDENTIFIER, bundle);
 
-                v.getContext().startActivity(neighbourDetailIntent);
-            }
+            v.getContext().startActivity(neighbourDetailIntent);
         });
     }
 
@@ -84,7 +75,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }

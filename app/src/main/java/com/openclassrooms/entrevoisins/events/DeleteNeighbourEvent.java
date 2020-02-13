@@ -10,7 +10,7 @@ public class DeleteNeighbourEvent {
     /**
      * Neighbour to delete
      */
-    public Neighbour neighbour;
+    public final Neighbour neighbour;
 
     /**
      * Constructor.

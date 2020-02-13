@@ -53,11 +53,9 @@ public class AddNeighbourActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home : {
-                finish();
-                return true;
-            }
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -97,13 +95,13 @@ public class AddNeighbourActivity extends AppCompatActivity {
      * Generate a random image. Useful to mock image picker
      * @return String
      */
-    String randomImage() {
+    private String randomImage() {
         return "https://i.pravatar.cc/150?u="+ System.currentTimeMillis();
     }
 
     /**
      * Used to navigate to this activity
-     * @param activity
+     * @param activity where code is executed
      */
     public static void navigate(FragmentActivity activity) {
         Intent intent = new Intent(activity, AddNeighbourActivity.class);
