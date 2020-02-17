@@ -3,4 +3,7 @@
     <string name="tab_neighbour_title">My neighbours</string>
     <string name="tab_favorites_title">Favorites</string>
     <string name="activity_new_neighbour">New neighbour</string>
+    <string name="lorem_ipsum_100">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras porta lacus a posuere ultrices. Proin fringilla laoreet hendrerit. Suspendisse potenti. Praesent nulla dolor, porta dignissim feugiat in, fermentum eget neque. Mauris lacinia lacus odio, eget dapibus ligula hendrerit eget. Vestibulum at mauris at sem dapibus pharetra ut quis augue. Sed tortor augue, lacinia eu gravida id, mollis vitae erat. Donec eu semper elit, in auctor quam.
+
+In lacus mi, facilisis ac euismod eu, vestibulum vel magna. Duis fermentum efficitur tortor in gravida. Nulla efficitur hendrerit placerat. Phasellus eget massa vel quam rutrum egestas. Maecenas mattis sed arcu volutpat laoreet. In.</string>
 </resources>
