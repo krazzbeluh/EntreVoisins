@@ -1,10 +1,12 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.model.FavoritesManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NeighbourDetailActivity extends AppCompatActivity {
 
@@ -21,6 +27,9 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     private static final String TAG = "NeighbourDetailActivity";
 
     private Neighbour mNeighbour;
+    private FavoritesManager mFormatter;
+
+    private SharedPreferences mSharedPreferences;
 
     private ImageButton mBackButton;
     private ImageView mAvatar;
@@ -35,9 +44,13 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neighbour_detail);
 
+        mSharedPreferences = this.getSharedPreferences(getString(R.string.SHAREDP_FAVORITES), MODE_PRIVATE);
+
         Intent intent = this.getIntent();
         Bundle bundle = intent.getBundleExtra(BUNDLE_IDENTIFIER);
         this.mNeighbour = (Neighbour) bundle.getSerializable(SERIALIZABLE_IDENTIFIER);
+
+        mFormatter = new FavoritesManager();
 
         this.mBackButton = findViewById(R.id.image_details_back_arrow);
         this.mAvatar = findViewById(R.id.neighbour_avatar_image);
@@ -61,9 +74,33 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(v -> finish());
 
         mFavButton.setOnClickListener(v -> {
-            getPreferences(MODE_PRIVATE).edit().putBoolean(String.valueOf(mNeighbour.getId()), !checkFavorite()).apply();
+            if (getFavorites().contains(mNeighbour.getId())) {
+                List<Long> favorites = getFavorites();
+                favorites.remove(mNeighbour.getId());
+
+                mSharedPreferences.edit().putString(getString(R.string.FAVORITES_STRING), mFormatter.getFavoritesString(favorites)).apply();
+            } else {
+                List<Long> favorites = getFavorites();
+                favorites.add(mNeighbour.getId());
+
+                mSharedPreferences.edit().putString(getString(R.string.FAVORITES_STRING), mFormatter.getFavoritesString(favorites)).apply();
+            }
+
             updateFavButton();
         });
+    }
+
+    private String getFavoritesString() {
+        return mSharedPreferences.getString(getString(R.string.FAVORITES_STRING), "");
+    }
+
+    private List<Long> getFavorites() {
+        String favoritesStr = getFavoritesString();
+
+        List<Long> favorites = mFormatter.getFavorites(favoritesStr);
+        Log.d(TAG, "getFavorites: " + favorites);
+
+        return favorites;
     }
 
     private void updateFavButton() {
@@ -71,7 +108,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     }
 
     private boolean checkFavorite() {
-        return getPreferences(MODE_PRIVATE).getBoolean(String.valueOf(mNeighbour.getId()), false);
+        return getFavorites().contains(mNeighbour.getId());
     }
 
     public Neighbour getNeighbour() {
