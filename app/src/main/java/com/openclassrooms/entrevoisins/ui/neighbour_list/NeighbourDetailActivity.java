@@ -24,6 +24,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
 
     public static final String BUNDLE_IDENTIFIER = "NeighbourDetailActivityBundle";
     public static final String SERIALIZABLE_IDENTIFIER = "NeighbourDetailActivitySerializable";
+    public static final String FAVORITES_STRING = "PreferencesFavorites";
     private static final String TAG = "NeighbourDetailActivity";
 
     private Neighbour mNeighbour;
@@ -78,12 +79,12 @@ public class NeighbourDetailActivity extends AppCompatActivity {
                 List<Long> favorites = getFavorites();
                 favorites.remove(mNeighbour.getId());
 
-                mSharedPreferences.edit().putString(getString(R.string.FAVORITES_STRING), mFormatter.getFavoritesString(favorites)).apply();
+                mSharedPreferences.edit().putString(FAVORITES_STRING, mFormatter.getFavoritesString(favorites)).apply();
             } else {
                 List<Long> favorites = getFavorites();
                 favorites.add(mNeighbour.getId());
 
-                mSharedPreferences.edit().putString(getString(R.string.FAVORITES_STRING), mFormatter.getFavoritesString(favorites)).apply();
+                mSharedPreferences.edit().putString(FAVORITES_STRING, mFormatter.getFavoritesString(favorites)).apply();
             }
 
             updateFavButton();
@@ -91,14 +92,13 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     }
 
     private String getFavoritesString() {
-        return mSharedPreferences.getString(getString(R.string.FAVORITES_STRING), "");
+        return mSharedPreferences.getString(FAVORITES_STRING, "");
     }
 
     private List<Long> getFavorites() {
         String favoritesStr = getFavoritesString();
 
         List<Long> favorites = mFormatter.getFavorites(favoritesStr);
-        Log.d(TAG, "getFavorites: " + favorites);
 
         return favorites;
     }
