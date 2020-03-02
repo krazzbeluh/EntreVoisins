@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:style="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:background="#ebebeb">
 
@@ -11,7 +11,6 @@
         android:id="@+id/appbar"
         android:layout_height="300dp"
         android:layout_width="match_parent"
-        android:theme="@style/AppTheme"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -22,7 +21,8 @@
             android:fitsSystemWindows="true"
             app:layout_scrollInterpolator="@android:interpolator/decelerate_cubic"
             app:contentScrim="?attr/colorPrimary"
-            app:titleEnabled="true">
+            app:titleEnabled="true"
+            android:theme="@style/CustomToolBarStyle">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

@@ -45,6 +45,8 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neighbour_detail);
 
+        setSupportActionBar(findViewById(R.id.toolbar));
+
         mSharedPreferences = this.getSharedPreferences(getString(R.string.SHAREDP_FAVORITES), MODE_PRIVATE);
 
         Intent intent = this.getIntent();

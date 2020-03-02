@@ -26,10 +26,9 @@ class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        Log.d(TAG, "getItem: bite");
         switch (position) {
-            case 1: return FavoriteFragment.newInstance(mSharedPreferences);
-            default: return NeighbourFragment.newInstance();
+            case 1: return NeighbourFragment.newInstance(true, mSharedPreferences);
+            default: return NeighbourFragment.newInstance(false, mSharedPreferences);
         }
     }
 
