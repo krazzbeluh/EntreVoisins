@@ -36,6 +36,7 @@ public class NeighbourFragment extends Fragment {
 
     private SharedPreferences mSharedPreferences;
     private FavoritesManager mFormatter = new FavoritesManager();
+    private boolean isVisible = false;
 
     private void setSharedPreferences(SharedPreferences sharedPreferences) {
         mSharedPreferences = sharedPreferences;
@@ -126,14 +127,32 @@ public class NeighbourFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void setMenuVisibility(final boolean visible) {
+        super.setMenuVisibility(visible);
+        isVisible = visible;
+    }
+
     /**
      * Fired if the user clicks on a delete button
      * @param event
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        Log.d(TAG, "onDeleteNeighbour: isFavorite: " + mIsFavorite);
-        mApiService.deleteNeighbour(event.neighbour);
-        initList();
+        if (this.isVisible) {
+            if (!mIsFavorite) {
+                Log.d(TAG, "onDeleteNeighbour: isFavorite: " + mIsFavorite);
+                mApiService.deleteNeighbour(event.neighbour);
+            } else {
+                Log.d(TAG, "onDeleteFavorite: ");
+                String favoritesStr = mSharedPreferences.getString(FAVORITES_STRING, "");
+                List<Long> favorites = mFormatter.getFavorites(favoritesStr);
+
+                favorites.remove(event.neighbour.getId());
+
+                mSharedPreferences.edit().putString(FAVORITES_STRING, mFormatter.getFavoritesString(favorites)).apply();
+            }
+            initList();
+        }
     }
 }

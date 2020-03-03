@@ -32,6 +32,10 @@ public class NeighbourDetailActivity extends AppCompatActivity {
 
     private SharedPreferences mSharedPreferences;
 
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        mSharedPreferences = sharedPreferences;
+    }
+
     private ImageButton mBackButton;
     private ImageView mAvatar;
     private FloatingActionButton mFavButton;
@@ -39,6 +43,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
     private TextView mPhone;
     private TextView mWebProfile;
     private TextView mDescription;
+    private TextView mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         this.mPhone = findViewById(R.id.detail_phone);
         this.mWebProfile = findViewById(R.id.detail_network);
         this.mDescription = findViewById(R.id.detail_description);
+        this.mName = findViewById(R.id.detail_name);
         final Toolbar toolbar = findViewById(R.id.toolbar);
 
         toolbar.setTitle(mNeighbour.getName());
@@ -69,6 +75,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
         mPhone.setText(mNeighbour.getPhoneNumber());
         mWebProfile.setText("www.facebook.fr/" + mNeighbour.getName());
         mDescription.setText(mNeighbour.getAboutMe());
+        mName.setText(mNeighbour.getName());
 
         Glide.with(this).load(mNeighbour.getAvatarUrl()).placeholder(R.drawable.ic_account)
                 .apply(RequestOptions.centerCropTransform()).into(mAvatar);
@@ -107,6 +114,7 @@ public class NeighbourDetailActivity extends AppCompatActivity {
 
     private void updateFavButton() {
         mFavButton.setImageResource(checkFavorite() ? R.drawable.ic_star_white_24dp : R.drawable.ic_star_border_white_24dp);
+        mFavButton.setContentDescription(checkFavorite() ? getString(R.string.star_button_description_is_favorite) : getString(R.string.star_button_description_is_not_favorite));
     }
 
     private boolean checkFavorite() {
