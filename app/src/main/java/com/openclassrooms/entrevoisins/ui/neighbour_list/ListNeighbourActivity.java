@@ -1,5 +1,6 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -21,12 +22,19 @@ public class ListNeighbourActivity extends AppCompatActivity {
     // UI Components
     @BindView(R.id.tabs)
     TabLayout mTabLayout;
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        mSharedPreferences = sharedPreferences;
+        mNeighbourPagerAdapter.setSharedPreferences(sharedPreferences);
+    }
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.container)
     ViewPager mViewPager;
 
     private ListNeighbourPagerAdapter mNeighbourPagerAdapter;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +43,8 @@ public class ListNeighbourActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(mToolbar);
-        mNeighbourPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager(), getSharedPreferences(getString(R.string.SHAREDP_FAVORITES), MODE_PRIVATE));
+        mNeighbourPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager(), mSharedPreferences);
+        setSharedPreferences(getSharedPreferences(getString(R.string.SHAREDP_FAVORITES), MODE_PRIVATE));
         mViewPager.setAdapter(mNeighbourPagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {

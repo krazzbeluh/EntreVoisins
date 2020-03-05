@@ -9,6 +9,7 @@ import android.graphics.drawable.DrawableWrapper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -89,11 +90,5 @@ public class NeighbourDetailTest {
         onView(withId(R.id.fav_neighbour_button)).check(matches(withContentDescription(mTargetContext.getString(R.string.star_button_description_is_not_favorite))));
         onView(withId(R.id.fav_neighbour_button)).perform(click()).check(matches(withContentDescription(mTargetContext.getString(R.string.star_button_description_is_favorite))));
         onView(withId(R.id.fav_neighbour_button)).perform(click()).check(matches(withContentDescription(mTargetContext.getString(R.string.star_button_description_is_not_favorite))));
-    }
-
-    @Test
-    public void clickOnBackButtonShouldFinishActivity() {
-        onView(withId(R.id.image_details_back_arrow)).perform(click());
-        assertThat(mActivityRule.getActivityResult(), hasResultCode(Activity.RESULT_OK));
     }
 }

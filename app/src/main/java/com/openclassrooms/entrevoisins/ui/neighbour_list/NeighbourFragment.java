@@ -38,7 +38,7 @@ public class NeighbourFragment extends Fragment {
     private FavoritesManager mFormatter = new FavoritesManager();
     private boolean isVisible = false;
 
-    private void setSharedPreferences(SharedPreferences sharedPreferences) {
+    void setSharedPreferences(SharedPreferences sharedPreferences) {
         mSharedPreferences = sharedPreferences;
     }
 
@@ -88,7 +88,9 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList() {
         if (mIsFavorite) {
-            List<Long> favoritesIds = mFormatter.getFavorites(mSharedPreferences.getString(FAVORITES_STRING, ""));
+            String favoritesString = mSharedPreferences.getString(FAVORITES_STRING, "");
+            Log.d(TAG, "initList: " + favoritesString);
+            List<Long> favoritesIds = mFormatter.getFavorites(favoritesString);
 
             List<Neighbour> neighbours = mApiService.getNeighbours();
             List<Neighbour> favorites = new ArrayList<>();
@@ -113,6 +115,7 @@ public class NeighbourFragment extends Fragment {
     public void onResume() {
         super.onResume();
         initList();
+        hasLaunched = true;
     }
 
     @Override
@@ -127,10 +130,14 @@ public class NeighbourFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    private boolean hasLaunched = false;
+
     @Override
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
         isVisible = visible;
+
+        if (hasLaunched) initList();
     }
 
     /**

@@ -19,6 +19,12 @@ class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
         mSharedPreferences = sharedPreferences;
     }
 
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        mSharedPreferences = sharedPreferences;
+        NeighbourFragment fragment = (NeighbourFragment) getItem(1);
+        fragment.setSharedPreferences(sharedPreferences);
+    }
+
     /**
      * getItem is called to instantiate the fragment for the given page.
      * @param position
@@ -27,10 +33,13 @@ class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 1: return NeighbourFragment.newInstance(true, mSharedPreferences);
-            default: return NeighbourFragment.newInstance(false, mSharedPreferences);
+            case 1: return mFavoriteFragment;
+            default: return mNeighbourFragment;
         }
     }
+
+    private NeighbourFragment mNeighbourFragment = NeighbourFragment.newInstance(false, mSharedPreferences);
+    private NeighbourFragment mFavoriteFragment = NeighbourFragment.newInstance(true, mSharedPreferences);
 
     /**
      * get the number of pages
